@@ -46,6 +46,8 @@ def curvature(curve: pd.DataFrame, adjacent: int = 1, closed: bool = True) -> pd
                 (coordinates[0][adjacent] - coordinates[0][adjacent - 1]),
                 (coordinates[1][adjacent] - coordinates[1][adjacent - 1]))
 
+        curve.at[i, 'x'] = x
+        curve.at[i, 'y'] = y
         curve.at[i, 'Curvature'] = curvature
 
     return curve
