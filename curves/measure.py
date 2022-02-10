@@ -12,16 +12,14 @@ def curvature(curve: pd.DataFrame, adjacent: int = 1, closed: bool = True) -> pd
     # current point should be taken into account when
     # calculating curvature
     # closed specifies if the curve is closed
-
-    curvature = []
-    contour = 0
+    curve_array = curve.to_numpy()
     coordinates = np.zeros([2, adjacent * 2 + 1])
-    for i, (x, y) in enumerate(curve):
+    for i, (x, y) in enumerate(curve_array):
         # Extracts the coordinates for the required number of points and puts them in an array
-        if closed or (adjacent < i < len(curve) - adjacent):
+        if closed or (adjacent < i < (len(curve_array) - adjacent)):
             for j in range(adjacent * 2 + 1):
-                coordinates[0][j] = curve[i - j][0]
-                coordinates[1][j] = curve[i - j][1]
+                coordinates[0][j] = curve_array[i - j][0]
+                coordinates[1][j] = curve_array[i - j][1]
 
             # Calculates the angles for the tangent lines to the left and the right of the point
             theta1 = math.atan((coordinates[1][adjacent] - coordinates[1][0]) / (
@@ -40,14 +38,8 @@ def curvature(curve: pd.DataFrame, adjacent: int = 1, closed: bool = True) -> pd
 
             # Calculates the curvature using the change in angle divided by the distance
             dist = math.hypot((xb - xa), (yb - ya))
-            curvature.append([i, contour, (theta2 - theta1) / dist])
+            curvature_measured = (theta2 - theta1) / dist
 
-            contour = contour + math.hypot(
-                (coordinates[0][adjacent] - coordinates[0][adjacent - 1]),
-                (coordinates[1][adjacent] - coordinates[1][adjacent - 1]))
-
-        curve.at[i, 'x'] = x
-        curve.at[i, 'y'] = y
-        curve.at[i, 'Curvature'] = curvature
+        curve.at[i, 'Curvature'] = curvature_measured
 
     return curve
