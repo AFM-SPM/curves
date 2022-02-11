@@ -22,9 +22,9 @@ def curvature(curve: pd.DataFrame, adjacent: int = 1, closed: bool = True) -> pd
                 coordinates[1][j] = curve_array[i - j][1]
 
             # Calculates the angles for the tangent lines to the left and the right of the point
-            theta1 = math.atan((coordinates[1][adjacent] - coordinates[1][0]) / (
+            theta1 = math.atan2((coordinates[1][adjacent] - coordinates[1][0]), (
                     coordinates[0][adjacent] - coordinates[0][0]))
-            theta2 = math.atan((coordinates[1][-1] - coordinates[1][adjacent]) / (
+            theta2 = math.atan2((coordinates[1][-1] - coordinates[1][adjacent]), (
                     coordinates[0][-1] - coordinates[0][adjacent]))
 
             left = coordinates[:, :adjacent + 1]

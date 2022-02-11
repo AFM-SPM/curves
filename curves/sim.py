@@ -12,7 +12,7 @@ def circle(radius: float, n_points: int) -> pd.DataFrame:
         dfcircle.at[i, 'y'] = y
     for i in range(n_points, n_points*2):
         x = radius - (i - n_points) * radius * 2 / n_points
-        y = (radius ** 2 - x ** 2) ** 0.5
+        y = -(radius ** 2 - x ** 2) ** 0.5
         dfcircle.at[i, 'x'] = x
         dfcircle.at[i, 'y'] = y
 
